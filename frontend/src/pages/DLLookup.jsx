@@ -16,7 +16,7 @@ export default function DLLookup() {
     
     try {
       const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
-      const response = await axios.post(`http://127.0.0.1:5001/api/licenses/lookup`, 
+      const response = await axios.post(`https://smart-rto.onrender.com/api/licenses/lookup`, 
         { dl_number: dlNumber, dob: dob }, // Use dlNumber from state
         { headers: { Authorization: `Bearer ${token}` } } // Correct Authorization header format
       );

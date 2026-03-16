@@ -16,7 +16,7 @@ export default function VehicleLookup() {
     
     try {
       const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
-      const response = await axios.get(`http://127.0.0.1:5001/api/vehicles/${searchQuery}`, {
+      const response = await axios.get(`https://smart-rto.onrender.com/api/vehicles/${searchQuery}`, {
         headers: { Authorization: `Bearer ${token}` } // Corrected Authorization header format
       });
       setVehicleData(response.data);

@@ -28,7 +28,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await fetch('http://127.0.0.1:5001/api/auth/login', {
+      const res = await fetch('https://smart-rto.onrender.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, role }),

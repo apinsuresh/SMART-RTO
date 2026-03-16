@@ -15,7 +15,7 @@ export default function EChallan() {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://127.0.0.1:5001/api/challans/vehicle/${vehicleNo}`, {
+      const response = await axios.get(`https://smart-rto.onrender.com/api/challans/vehicle/${vehicleNo}`, {
         headers: { Authorization: token }
       });
       setChallanData(response.data);
@@ -31,7 +31,7 @@ export default function EChallan() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://127.0.0.1:5001/api/challans/pay/${challanId}`, {}, {
+      await axios.post(`https://smart-rto.onrender.com/api/challans/pay/${challanId}`, {}, {
         headers: { Authorization: token }
       });
       

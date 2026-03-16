@@ -20,7 +20,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Profile() {
-  const API_BASE_URL = 'http://127.0.0.1:5001/api/auth';
+  const API_BASE_URL = 'https://smart-rto.onrender.com/api/auth';
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');

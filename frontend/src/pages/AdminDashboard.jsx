@@ -35,9 +35,9 @@ export default function AdminDashboard() {
     try {
       const token = localStorage.getItem('token');
       const [resOverview, resApps, resTrend] = await Promise.all([
-        axios.get('http://127.0.0.1:5001/api/reports/overview', { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get('http://127.0.0.1:5001/api/applications', { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get('http://127.0.0.1:5001/api/reports/revenue-trend', { headers: { Authorization: `Bearer ${token}` } })
+        axios.get('https://smart-rto.onrender.com/api/reports/overview', { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get('https://smart-rto.onrender.com/api/applications', { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get('https://smart-rto.onrender.com/api/reports/revenue-trend', { headers: { Authorization: `Bearer ${token}` } })
       ]);
       
       const pendingCount = resApps.data.filter(app => app.status === 'Pending' || app.status === 'Under Review').length;
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
     const interval = setInterval(async () => {
       try {
         const token = localStorage.getItem('token');
-        const resTrend = await axios.get('http://127.0.0.1:5001/api/reports/revenue-trend', {
+        const resTrend = await axios.get('https://smart-rto.onrender.com/api/reports/revenue-trend', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setRevenueData(resTrend.data);
@@ -82,7 +82,7 @@ export default function AdminDashboard() {
   const handleStatusUpdate = async (trackingId, newStatus) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://127.0.0.1:5001/api/applications/${trackingId}/status`, { status: newStatus }, {
+      await axios.put(`https://smart-rto.onrender.com/api/applications/${trackingId}/status`, { status: newStatus }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       // Refresh dashboard data

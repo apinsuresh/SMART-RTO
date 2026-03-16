@@ -54,7 +54,7 @@ export default function OnlineApplications() {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(`http://127.0.0.1:5001/api/applications`, payload, {
+      const response = await axios.post(`https://smart-rto.onrender.com/api/applications`, payload, {
         headers: { Authorization: token }
       });
       

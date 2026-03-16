@@ -76,7 +76,7 @@ export default function SmartSahayak() {
       }));
       apiMessages.push({ role: 'user', content: msgText.trim() });
 
-      const res = await fetch('http://127.0.0.1:5001/api/chat', {
+      const res = await fetch('https://smart-rto.onrender.com/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: apiMessages })
