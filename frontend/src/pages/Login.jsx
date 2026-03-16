@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { 
-  User, Shield, Lock, Eye, EyeOff, AlertCircle, 
+import {
+  User, Shield, Lock, Eye, EyeOff, AlertCircle,
   CheckCircle, Zap, Archive, HeadphonesIcon, Car
 } from 'lucide-react';
 
@@ -135,11 +135,10 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => setRole('citizen')}
-                className={`flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200 ${
-                  role === 'citizen'
+                className={`flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200 ${role === 'citizen'
                     ? 'bg-red-600 text-white shadow-lg shadow-red-200'
                     : 'text-slate-500 hover:text-slate-900'
-                }`}
+                  }`}
               >
                 <User size={16} className="mr-2" />
                 Citizen
@@ -147,11 +146,10 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => setRole('officer')}
-                className={`flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200 ${
-                  role === 'officer'
+                className={`flex-1 flex items-center justify-center py-2.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200 ${role === 'officer'
                     ? 'bg-red-600 text-white shadow-lg shadow-red-200'
                     : 'text-slate-500 hover:text-slate-900'
-                }`}
+                  }`}
               >
                 <Shield size={16} className="mr-2" />
                 Officer
