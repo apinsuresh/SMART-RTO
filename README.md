@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Smart RTO Vehicle Intelligence and Risk Analysis System
 
 ## Project Description
@@ -88,3 +89,6 @@ smart-rto/
 
 ## Author
 **Developed by:** Ishu S
+=======
+# SMART-RTO
+>>>>>>> e16e43c7c459e665a31248cfe047559b95690ec8
