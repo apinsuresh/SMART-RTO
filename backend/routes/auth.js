@@ -1,101 +1,85 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
 import { verifyToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Register (for demo/seed purposes)
+// Mock Demo User
+const DEMO_USER = {
+    id: 'demo-user-123',
+    name: 'Indhu S (Demo)',
+    email: 'test@test.com',
+    password: 'password', // Plain text for demo simplicity
+    role: 'citizen',
+    dob: '1995-05-20',
+    gender: 'Female',
+    aadhaar: 'XXXX-XXXX-1234',
+    phone: '9876543210',
+    currentAddress: '123 Demo St, Mumbai, MH',
+    permanentAddress: '123 Demo St, Mumbai, MH'
+};
+
+const DEMO_OFFICER = {
+    id: 'demo-officer-999',
+    name: 'RTO Officer (Demo)',
+    email: 'admin@test.com',
+    password: 'password',
+    role: 'officer'
+};
+
+// Register (Mock Success)
 router.post('/register', async (req, res) => {
-  try {
-    const { name, email, password, role } = req.body;
-    
-    const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: 'User already exists' });
-
-    const salt = await bcrypt.genSalt(10);
-    const password_hash = await bcrypt.hash(password, salt);
-
-    const user = new User({ name, email, password_hash, role: role || 'citizen' });
-    await user.save();
-
-    res.status(201).json({ message: 'User registered successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
+    res.status(201).json({ message: 'User registered successfully (Mock Mode)' });
 });
 
 // Login
 router.post('/login', async (req, res) => {
-  try {
     const { email, password, role } = req.body;
-    
-    // Find user
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
-    // Verify role if provided
-    if (role && user.role !== role) {
-      return res.status(403).json({ message: 'Unauthorized role access' });
+    let userToLogin = null;
+    if (email === DEMO_USER.email && password === DEMO_USER.password) {
+        userToLogin = DEMO_USER;
+    } else if (email === DEMO_OFFICER.email && password === DEMO_OFFICER.password) {
+        userToLogin = DEMO_OFFICER;
     }
 
-    // Verify password
-    const isMatch = await bcrypt.compare(password, user.password_hash);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+    if (!userToLogin) {
+        return res.status(400).json({ message: 'Invalid credentials. Try test@test.com / password' });
+    }
 
-    // Generate payload and token
+    // Verify role if provided
+    if (role && userToLogin.role !== role) {
+        return res.status(403).json({ message: 'Unauthorized role access for this demo account' });
+    }
+
     const payload = {
-      user: {
-        id: user._id,
-        role: user.role
-      }
+        user: {
+            id: userToLogin.id,
+            role: userToLogin.role
+        }
     };
 
     jwt.sign(
-      payload,
-      process.env.JWT_SECRET || 'secret_rto_key',
-      { expiresIn: '1h' },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token, role: user.role, name: user.name });
-      }
+        payload,
+        process.env.JWT_SECRET || 'secret_rto_key',
+        { expiresIn: '1h' },
+        (err, token) => {
+            if (err) throw err;
+            res.json({ token, role: userToLogin.role, name: userToLogin.name });
+        }
     );
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
 });
+
 // Get Profile
 router.get('/profile', verifyToken, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select('-password_hash');
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
+    // Always return demo user for profile request in mock mode
+    res.json(DEMO_USER);
 });
 
-// Update Profile
+// Update Profile (Mock)
 router.put('/profile', verifyToken, async (req, res) => {
-  try {
-    const { name, dob, gender, aadhaar, phone, currentAddress, permanentAddress } = req.body;
-    
-    const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({ message: 'User not found' });
-
-    if (name) user.name = name;
-    if (dob) user.dob = dob;
-    if (gender) user.gender = gender;
-    if (aadhaar) user.aadhaar = aadhaar;
-    if (phone) user.phone = phone;
-    if (currentAddress) user.currentAddress = currentAddress;
-    if (permanentAddress) user.permanentAddress = permanentAddress;
-
-    await user.save();
-    res.json({ message: 'Profile updated successfully', user });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
+    res.json({ message: 'Profile updated successfully (Mock Mode)', user: DEMO_USER });
 });
 
 export default router;

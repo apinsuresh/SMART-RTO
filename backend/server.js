@@ -1,5 +1,4 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js';
@@ -15,7 +14,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: ["https://smart-rto.vercel.app", "http://localhost:5173"],
+  origin: ["https://smart-rto.vercel.app", "http://localhost:5173", "http://localhost:3000"],
   credentials: true
 }));
 
@@ -28,16 +27,10 @@ app.use('/api/challans', challanRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/chat', chatRoutes);
 
-app.get('/', (req, res) => res.send('Smart RTO API Running...'));
+app.get('/', (req, res) => res.send('Smart RTO API Running (Demo Mode - No DB)...'));
 
 const PORT = process.env.PORT || 5001;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/smart-rto';
 
-mongoose.connect(MONGO_URI)
-  .then(() => {
-    console.log('MongoDB connected');
-    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-  })
-  .catch(err => {
-    console.error('Database connection error:', err);
-  });
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT} (Demo Mode)`);
+});
